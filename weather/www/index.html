@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
+
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+	<script src="lib/ionic/js/angular/angular-resource.js"></script>
+
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+
+    <!-- your app's js -->
+    <script src="js/app.js"></script>
+	<script src="js/weatherController.js"></script>
+	<script src="js/services.js"></script>
+	<script src="js/constants.js"></script>
+  </head>
+  
+  <!--Header stuff -->
+  <body ng-app="weather">
+	<ion-nav-view class="background">
+	<ion-header-bar class="bar-calm">
+		<h1 class="title">Wenham, MA</h1>
+	</ion-header-bar>
+	
+	<!--Get information for the current day -->
+    <ion-pane ng-controller="weatherCtrl">
+        <ion-content scroll="false" class="has-header">
+          <h2 class="currDay">{{findDays[0]}}</h2>
+		  <div class="row row-67">
+		  <script>console.log("today")</script>
+            <div class="col">
+              Currently<br>
+              {{tempCurrent}} °F </div>
+			  
+			<div class="col">Tonight<br>
+			  {{tempTonightLow}} °F</div>
+			
+			<div class="col">Precipitation<br>
+			  {{todayPrecip}}</div>
+		  
+		<div class="col">Wind<br>
+				  {{todayWind}}</div>
+          </div>
+			
+		<div class="weatherPic">
+			<a class="picItem item-thumbnail-left" href="#">
+				<img src={{getPicture}}>
+			</a>
+		</div>
+		  
+		  <hr>
+		 
+		 <!--Dropdown menu for weather for rest of week -->
+		  <div ng-controller="EventsController">
+		  <p>
+			<button class="button button-icon" ng-click="openPopover($event)">Weekly</button>
+		  </p>
+		  
+		  <script id="my-popover.html" type="text/ng-template">
+			  <ion-popover-view>
+				<ion-content>
+					<ion-list>
+						<ion-item>
+							<div class="item">
+							Tomorrow<br>
+							  Precipitation:
+							  {{weatherTomorrow[0]}} <br>
+							  Temperature:
+							  {{weatherTomorrow[1]}}°F
+							</div>
+							</div>
+							
+							<div class="item">
+							  {{findDays[2]}}<br>
+							  Precipitation:
+							  {{weatherDay2[0]}}<br>
+							  Temperature:
+							  {{weatherDay2[1]}} °F
+						  </div>
+							
+							<div class="item">
+							  {{findDays[3]}}<br>
+							  Precipitation:
+							  {{weatherDay3[0]}}<br>
+							  Temperature:
+							  {{weatherDay3[1]}} °F
+						  </div>
+							
+							<div class="item">
+							  {{findDays[4]}}<br>
+							  Precipitation:
+							  {{weatherDay4[0]}}<br>
+							  Temperature:
+							  {{weatherDay4[1]}} °F
+						  </div>
+							
+							<div class="item">
+							  {{findDays[5]}}<br>
+							  Precipitation:
+							  {{weatherDay5[0]}}<br>
+							  Temperature:
+							  {{weatherDay5[1]}} °F
+						  </div>
+							
+							<div class="item">
+							  {{findDays[6]}}<br>
+							  Precipitation:
+							  {{weatherDay6[0]}}<br>
+							  Temperature:
+							  {{weatherDay6[1]}} °F</div>
+						  </div>
+						  
+						</ion-item>
+					</ion-list>
+				</ion-content>
+			  </ion-popover-view>
+		  </script>
+		  </div>	  
+        </ion-content>
+      </ion-pane>
+	
+	
+	</ion-nav-view>
+  </body>
+</html>
