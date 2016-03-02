@@ -64,53 +64,15 @@ weatherApp.service('weatherData', ['$q', '$resource', '$http',
             return this.roundTemp(weatherStore.current.currently.temperature);
         };
 
-        // Return weather data for tomorrow.
-        this.weatherTomorrow = function() {
+        // Return weather data for next few days.
+        this.weather = function(index) {
 			var temp = this.roundTemp(
-				weatherStore.current.daily.data[1].temperatureMax);
-			var precip = weatherStore.current.daily.data[1].precipIntensity;
+				weatherStore.current.daily.data[index].temperatureMax);
+			var precip = weatherStore.current.daily.data[index].precipIntensity;
 			return [precip, temp,];
         };
 		
-		// Return weather data for day 2
-        this.weatherDay2 = function() {
-            var temp = this.roundTemp(
-						weatherStore.current.daily.data[2].temperatureMax);
-			var precip = weatherStore.current.daily.data[2].precipIntensity;
-			return [precip, temp];
-        };
-		
-		// Return weather data for day 3
-        this.weatherDay3 = function() {
-            var temp = this.roundTemp(
-						weatherStore.current.daily.data[3].temperatureMax);
-			var precip = weatherStore.current.daily.data[3].precipIntensity;
-			return [precip, temp];
-        };
-			
-		// Return weather data for day 4
-        this.weatherDay4 = function() {
-            var temp = this.roundTemp(
-						weatherStore.current.daily.data[4].temperatureMax);
-			var precip = weatherStore.current.daily.data[4].precipIntensity;
-			return [precip, temp];
-        };
-		
-		// Return weather data for day 5
-        this.weatherDay5 = function() {
-            var temp = this.roundTemp(
-						weatherStore.current.daily.data[5].temperatureMax);
-			var precip = weatherStore.current.daily.data[5].precipIntensity;
-			return [precip, temp];
-        };
-		
-		// Return weather data for day 6
-        this.weatherDay6 = function() {
-            var temp = this.roundTemp(
-						weatherStore.current.daily.data[6].temperatureMax);
-			var precip = weatherStore.current.daily.data[6].precipIntensity;
-			return [precip, temp];
-        };
+
 		
 		//Return weather for tonight
         this.tempToMidnightLow = function() {
@@ -127,24 +89,24 @@ weatherApp.service('weatherData', ['$q', '$resource', '$http',
             return this.roundTemp(low);
         };
 		
-		//Return the intensity of precipitation
+		//Return the expected intensity of precipitation
 		this.todayPrecip = function() {
 			return weatherStore.current.hourly.data[0].precipIntensity;
 		};
 		
 		//Return the correct picture for the current day
 		//depending on the current weather
-		this.getPicture = function() {
+		this.getPicture = function(index) {
 			var pic;
-			var precip = weatherStore.current.daily.data[0].precipIntensity;
+			var precip = weatherStore.current.daily.data[index].precipIntensity;
 			if (precip == 0) {
-				pic = "https://cdn.evbuc.com/eventlogos/29589191/sunnybig.png"
+				pic = 'ion-android-sunny';
 			};
 			if (precip > 0 && precip <= .1) {
-				pic = "https://cdn3.iconfinder.com/data/icons/weather-icons-1/64/Sun_Behind_Cloud-512.png"
+				pic = 'ion-ios-partlysunny-outline';
 			};
 			if (precip > .1) {
-				pic = "http://www.iconpng.com/png/pictograms/rain.png"
+				pic = 'ion-ios-rainy-outline';
 			};
 			return pic;
 		};
@@ -183,6 +145,16 @@ weatherApp.service('weatherData', ['$q', '$resource', '$http',
             return this.findHour(d.getTime() / 1000); // millisec -> sec
         };
 		
+		//Get the week		
+		this.getWeek = function() {
+			week = new Array();
+			for (var i = 0; i < 7; i++) {
+				week.push({
+					day: weatherStore.current.daily.data[i].time * 1000
+				});
+			}
+			return week;
+		};
 		
 		//Return the days for the weather reports
 		this.findDays = function() {
@@ -211,4 +183,6 @@ weatherApp.service('weatherData', ['$q', '$resource', '$http',
 			}
 			return nextDay;
 		};
+		
+		
     }]);

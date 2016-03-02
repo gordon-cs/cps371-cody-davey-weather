@@ -24,17 +24,19 @@
 	<script src="js/weatherController.js"></script>
 	<script src="js/services.js"></script>
 	<script src="js/constants.js"></script>
+	
+
   </head>
   
   <!--Header stuff -->
-  <body ng-app="weather">
+  <body ng-app="weather" ng-controller="weatherCtrl" ng-init="init()">
 	<ion-nav-view class="background">
-	<ion-header-bar class="bar-calm">
-		<h1 class="title">Wenham, MA</h1>
+	<ion-header-bar class="bar-calm" align-title="center">
+		<h1 class="title">{{weather.city}}</h1>
 	</ion-header-bar>
 	
 	<!--Get information for the current day -->
-    <ion-pane ng-controller="weatherCtrl">
+    <ion-pane>
         <ion-content scroll="false" class="has-header">
           <h2 class="currDay">{{findDays[0]}}</h2>
 		  <div class="row row-67">
@@ -47,86 +49,156 @@
 			  {{tempTonightLow}} °F</div>
 			
 			<div class="col">Precipitation<br>
-			  {{todayPrecip}}</div>
+			  {{todayPrecip}} in/hr</div>
 		  
 		<div class="col">Wind<br>
 				  {{todayWind}}</div>
           </div>
 			
-		<div class="weatherPic">
-			<a class="picItem item-thumbnail-left" href="#">
-				<img src={{getPicture}}>
-			</a>
-		</div>
+			<i class="icon big-icon" ng-class="picToday">
+			</i>
+			
+            <div class="container zip-container">
+                <form ng-submit="getLatLng(zipCode)">
+                    <input type="text" maxLength="5" ng-model="zipCode" name="zipCode" class="zip-input"> </form>
+                <button class="btn btn-default zip-button" ng-click="getLatLng(zipCode)" type="submit">New Location</button>
+            </div>
 		  
-		  <hr>
-		 
-		 <!--Dropdown menu for weather for rest of week -->
-		  <div ng-controller="EventsController">
-		  <p>
-			<button class="button button-icon" ng-click="openPopover($event)">Weekly</button>
-		  </p>
-		  
-		  <script id="my-popover.html" type="text/ng-template">
-			  <ion-popover-view>
-				<ion-content>
-					<ion-list>
-						<ion-item>
+		<ion-list>
+			<ion-item>
+			<div ng-click="clicked = !clicked">
+				<div class="row row-no-padding">
+					<div class ="col text-right">
+						<div id="clicky">{{findDays[1]}}</div>
+						<i class="icon"
+						  ng-class="picTomorrow">
+						</i>
+					</div>
+				</div>
+				<div class="details"
+				 ng-class="{'details-clicked': clicked, '': !clicked}">
+						<div class="item">
+							<div class="dayInfo">Precipitation:
+							{{weatherTomorrow[0]}} in/hr <br>
+							Temperature:
+							{{weatherTomorrow[1]}}°F</div>
+						</div>		
+				</div>
+			</div>
+			</ion-item>
+
+			<ion-item>
+				<div ng-click="clicked = !clicked">
+					<div class="row row-no-padding">
+						<div class ="col text-right">
+							<div id="clicky">{{findDays[2]}}</div>
+							<i class="icon"
+							  ng-class="pic3">
+							</i>
+						</div>
+					</div>
+					<div class="details"
+					 ng-class="{'details-clicked': clicked, '': !clicked}">
 							<div class="item">
-							Tomorrow<br>
-							  Precipitation:
-							  {{weatherTomorrow[0]}} <br>
-							  Temperature:
-							  {{weatherTomorrow[1]}}°F
-							</div>
-							</div>
-							
+								<div class="dayInfo">Precipitation:
+								{{weather2[0]}} in/hr <br>
+								Temperature:
+								{{weather2[1]}}°F</div>
+							</div>			
+					</div>
+				</div>
+			</ion-item>
+			
+			<ion-item>
+				<div ng-click="clicked = !clicked">
+					<div class="row row-no-padding">
+						<div class ="col text-right">
+							<div id="clicky">{{findDays[3]}}</div>
+							<i class="icon"
+							  ng-class="pic4">
+							</i>
+						</div>
+					</div>
+					<div class="details"
+					 ng-class="{'details-clicked': clicked, '': !clicked}">
 							<div class="item">
-							  {{findDays[2]}}<br>
-							  Precipitation:
-							  {{weatherDay2[0]}}<br>
-							  Temperature:
-							  {{weatherDay2[1]}} °F
-						  </div>
-							
+								<div class="dayInfo">Precipitation:
+								{{weather3[0]}} in/hr <br>
+								Temperature:
+								{{weather3[1]}}°F</div>
+							</div>			
+					</div>
+				</div>
+			</ion-item>
+			
+			<ion-item>
+				<div ng-click="clicked = !clicked">
+					<div class="row row-no-padding">
+						<div class ="col text-right">
+							<div id="clicky">{{findDays[4]}}</div>
+							<i class="icon"
+							  ng-class="pic5">
+							</i>
+						</div>
+					</div>
+					<div class="details"
+					 ng-class="{'details-clicked': clicked, '': !clicked}">
 							<div class="item">
-							  {{findDays[3]}}<br>
-							  Precipitation:
-							  {{weatherDay3[0]}}<br>
-							  Temperature:
-							  {{weatherDay3[1]}} °F
-						  </div>
-							
+								<div class="dayInfo">Precipitation:
+								{{weather4[0]}} in/hr <br>
+								Temperature:
+								{{weather4[1]}}°F</div>
+							</div>			
+					</div>
+				</div>
+			</ion-item>
+			
+			<ion-item>
+				<div ng-click="clicked = !clicked">
+					<div class="row row-no-padding">
+						<div class ="col text-right">
+							<div id="clicky">{{findDays[5]}}</div>
+							<i class="icon"
+							  ng-class="pic6">
+							</i>
+						</div>
+					</div>
+					<div class="details"
+					 ng-class="{'details-clicked': clicked, '': !clicked}">
 							<div class="item">
-							  {{findDays[4]}}<br>
-							  Precipitation:
-							  {{weatherDay4[0]}}<br>
-							  Temperature:
-							  {{weatherDay4[1]}} °F
-						  </div>
-							
+								<div class="dayInfo">Precipitation:
+								{{weather5[0]}} in/hr <br>
+								Temperature:
+								{{weather5[1]}}°F</div>
+							</div>			
+					</div>
+				</div>
+			</ion-item>
+			
+			<ion-item>
+				<div ng-click="clicked = !clicked">
+					<div class="row row-no-padding">
+						<div class ="col text-right">
+							<div id="clicky">{{findDays[6]}}</div>
+							<i class="icon"
+							  ng-class="pic7">
+							</i>
+						</div>
+					</div>
+					<div class="details"
+					 ng-class="{'details-clicked': clicked, '': !clicked}">
 							<div class="item">
-							  {{findDays[5]}}<br>
-							  Precipitation:
-							  {{weatherDay5[0]}}<br>
-							  Temperature:
-							  {{weatherDay5[1]}} °F
-						  </div>
-							
-							<div class="item">
-							  {{findDays[6]}}<br>
-							  Precipitation:
-							  {{weatherDay6[0]}}<br>
-							  Temperature:
-							  {{weatherDay6[1]}} °F</div>
-						  </div>
-						  
-						</ion-item>
-					</ion-list>
-				</ion-content>
-			  </ion-popover-view>
-		  </script>
-		  </div>	  
+								<div class="dayInfo">Precipitation:
+								{{weather6[0]}} in/hr <br>
+								Temperature:
+								{{weather6[1]}}°F</div>
+							</div>			
+					</div>
+				</div>
+			</ion-item>
+			
+		</ion-list>
+
         </ion-content>
       </ion-pane>
 	
